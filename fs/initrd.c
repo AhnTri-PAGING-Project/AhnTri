@@ -9,7 +9,7 @@
 #define OWNER_USER_NAME_SIZE 32
 #define OWNER_GROUP_NAME_SIZE 32
 //-------------------------------
-
+/*
 initrd_header_t *initrd_header;         //Thanks for the issue fix, u/DeanoBurrito!
 initrd_file_header_t *file_headers[9];
 fs_node_t initrd_root;
@@ -18,6 +18,7 @@ fs_node_t root_nodes[9];
 int nroot_nodes;
 
 struct dirent dirent;
+*/
 
 enum tar_file_types{
   norfilei = 0,
@@ -86,7 +87,7 @@ int tar_lookup(unsigned char *archive, char *filename, char **out) {
     return 0;
 }
 */
-
+/*
 static struct dirent *initrd_readdir(fs_node_t node, uint32_t index)
 {
    if(strcmp(node.name, "initrd")==0 && index == 0) {
@@ -169,3 +170,5 @@ fs_node_t init_initrd(uint32_t loc){
     root_nodes[i].impl = 0;
   }
 }
+*/
+
