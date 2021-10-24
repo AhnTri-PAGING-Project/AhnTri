@@ -10,7 +10,8 @@
 #define OWNER_GROUP_NAME_SIZE 32
 //-------------------------------
 
-initrd_file_header_t *file_headers[9];        //Thanks for the issue fix, u/DeanoBurrito!
+initrd_header_t *initrd_header;         //Thanks for the issue fix, u/DeanoBurrito!
+initrd_file_header_t *file_headers[9];
 fs_node_t initrd_root;
 fs_node_t initrd_dev;
 fs_node_t root_nodes[9];
@@ -121,7 +122,6 @@ fs_node_t fs_array[9];
 
 fs_node_t init_initrd(uint32_t loc){
   int i;
-  initrd_header = (initrd_header_t*)loc;
   file_headers = (initrd_file_header_t*)(loc+sizeof(initrd_header_t));
   strcpy(fs_array[0].name, "initrd");
   fs_array[0].mask    = 0;
