@@ -89,7 +89,7 @@ int tar_lookup(unsigned char *archive, char *filename, char **out) {
 
 static struct dirent *initrd_readdir(fs_node_t node, uint32_t index)
 {
-   if(strcmp(name, "initrd")==0 && index == 0) {
+   if(strcmp(node.name, "initrd")==0 && index == 0) {
      strcpy(dirent.name, "dev");
      dirent.name[3] = 0;
      dirent.ino = 0;
