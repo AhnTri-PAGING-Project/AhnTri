@@ -10,8 +10,7 @@
 #define OWNER_GROUP_NAME_SIZE 32
 //-------------------------------
 
-initrd_header_t *initrd_header;         //Thanks for the issue fix, u/DeanoBurrito!
-initrd_file_header_t *file_headers[9];
+initrd_file_header_t *file_headers[9];        //Thanks for the issue fix, u/DeanoBurrito!
 fs_node_t initrd_root;
 fs_node_t initrd_dev;
 fs_node_t root_nodes[9];
