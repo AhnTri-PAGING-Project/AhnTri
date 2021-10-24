@@ -88,7 +88,7 @@ int tar_lookup(unsigned char *archive, char *filename, char **out) {
 static struct dirent *initrd_readdir(fs_node_t *node, uint32_t index)
 {
    if(node == initrd_root && index == 0) {
-     dirent.name = "dev";
+     strcpy(dirent.name, "dev");
      dirent.name[3] = 0;
      dirent.ino = 0;
      return &dirent;
@@ -108,8 +108,34 @@ fs_node_t init_initrd(uint32_t loc){
   int i;
   initrd_header = (initrd_header_t *)loc;
   file_headers = (initrd_file_header_t *)(loc+sizeof(initrd_header_t));
-  fs_array[0] = {"initrd", 0, 0, 0, 0, 0, FS_DIRECTORY, 0, 0, 0, &initrd_readdir, &initrd_finddir, 0, 0};
-  fs_array[1] = {"dev", 0, 0, 0, 0, 0, FS_DIRECTORY, 0, 0, 0, &initrd_readdir, &initrd_finddir, 0, 0};
+  strcpy(fs_array[0].name, "initrd");
+  fs_array[0].mask    = 0;
+  fs_array[0].uid     = 0;
+  fs_array[0].gid     = 0;
+  fs_array[0].inode   = 0;
+  fs_array[0].length  = 0;
+  fs_array[0].flags   = FS_DIRECTORY;
+  fs_array[0].read    = 0;
+  fs_array[0].open    = 0;
+  fs_array[0].close   = 0;
+  fs_array[0].readdir = &initrd_readdir;
+  fs_array[0].finddir = &initrd_finddir;
+  fs_array[0].ptr = 0;
+  fs_array[0].impl = 0;
+  strcpy(fs_array[1].name, "dev");
+  fs_array[1].mask    = 0;
+  fs_array[1].uid     = 0;
+  fs_array[1].gid     = 0;
+  fs_array[1].inode   = 0;
+  fs_array[1].length  = 0;
+  fs_array[1].flags   = FS_DIRECTORY;
+  fs_array[1].read    = 0;
+  fs_array[1].open    = 0;
+  fs_array[1].close   = 0;
+  fs_array[1].readdir = &initrd_readdir;
+  fs_array[1].finddir = &initrd_finddir;
+  fs_array[1].ptr = 0;
+  fs_array[1].impl = 0;
   nroot_nodes = 9;
   for(i=0; i<9; i++){
     file_headers[i].offset+=location;
@@ -128,4 +154,3 @@ fs_node_t init_initrd(uint32_t loc){
     root_nodes[i].impl = 0;
   }
 }
-
