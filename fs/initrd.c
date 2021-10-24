@@ -104,7 +104,7 @@ static struct dirent *initrd_readdir(fs_node_t node, uint32_t index)
    return &dirent;
 }
 
-static fs_node_t *initrd_finddir(fs_node_t node, char *name)
+static fs_node_t initrd_finddir(fs_node_t node, char *name)
 {
    if (strcmp(name, "initrd")==0){
        return initrd_dev;
@@ -134,8 +134,8 @@ fs_node_t init_initrd(uint32_t loc){
   fs_array[0].read    = 0;
   fs_array[0].open    = 0;
   fs_array[0].close   = 0;
-  fs_array[0].readdir = &initrd_readdir;
-  fs_array[0].finddir = &initrd_finddir;
+  fs_array[0].readdir = initrd_readdir;
+  fs_array[0].finddir = initrd_finddir;
   fs_array[0].ptr = 0;
   fs_array[0].impl = 0;
   strcpy(fs_array[1].name, "dev");
