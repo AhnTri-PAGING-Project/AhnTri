@@ -112,7 +112,7 @@ static fs_node_t initrd_finddir(fs_node_t node, char *name)
    int i;
    for (i = 0; i < nroot_nodes; i++){
        if (!strcmp(name, root_nodes[i].name)){
-           return &root_nodes[i];
+           return root_nodes[i];
        }
    }
    return 0;
