@@ -87,9 +87,9 @@ int tar_lookup(unsigned char *archive, char *filename, char **out) {
 }
 */
 
-static struct dirent *initrd_readdir(fs_node_t *node, uint32_t index)
+static struct dirent *initrd_readdir(fs_node_t node, uint32_t index)
 {
-   if(node == initrd_root && index == 0) {
+   if(strcmp(name, "initrd")==0 && index == 0) {
      strcpy(dirent.name, "dev");
      dirent.name[3] = 0;
      dirent.ino = 0;
@@ -106,7 +106,7 @@ static struct dirent *initrd_readdir(fs_node_t *node, uint32_t index)
 
 static fs_node_t *initrd_finddir(fs_node_t node, char *name)
 {
-   if (node == initrd_root && !strcmp(name, "dev")){
+   if (strcmp(name, "initrd")==0){
        return initrd_dev;
    }
    int i;
@@ -154,7 +154,7 @@ fs_node_t init_initrd(uint32_t loc){
   fs_array[1].impl = 0;
   nroot_nodes = 9;
   for(i=0; i<9; i++){
-    file_headers[i].offset+=location;
+    file_headers[i].offset+=loc;
     root_nodes[i].name=&file_headers[i].name;
     root_nodes[i].mask = 0;
     root_nodes[i].uid = 0;
