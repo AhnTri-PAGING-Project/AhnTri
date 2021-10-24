@@ -23,12 +23,14 @@ typedef struct fs_node {
    uint32_t flags;          // Including the node type.
    uint32_t inode;          // Device specific, filesystems to identify the files in the filesystem.
    uint32_t length;         // Bytes of the size of the file in the filesystem.
+   uint32_t impl;
    read_type_t read;        // Read 
    write_type_t write;      // Write
    open_type_t open;        // Open
    close_type_t close;      // Close
    readdir_type_t readdir;  // Read dir
    finddir_type_t finddir;  // Find dir
+   struct fs_node *ptr;
 } fs_node_t;
 
 struct dirent {
