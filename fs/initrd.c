@@ -122,7 +122,7 @@ fs_node_t fs_array[9];
 
 fs_node_t init_initrd(uint32_t loc){
   int i;
-  file_headers.nfiles = (initrd_file_header_t*)(loc+sizeof(initrd_header_t));
+  initrd_header = (initrd_header_t*)loc;
   strcpy(fs_array[0].name, "initrd");
   fs_array[0].mask    = 0;
   fs_array[0].uid     = 0;
@@ -135,8 +135,8 @@ fs_node_t init_initrd(uint32_t loc){
   fs_array[0].close   = 0;
   fs_array[0].readdir = &initrd_readdir;
   fs_array[0].finddir = &initrd_finddir;
-  fs_array[0].ptr = 0;
-  fs_array[0].impl = 0;
+  fs_array[0].ptr     = 0;
+  fs_array[0].impl    = 0;
   strcpy(fs_array[1].name, "dev");
   fs_array[1].mask    = 0;
   fs_array[1].uid     = 0;
@@ -149,9 +149,9 @@ fs_node_t init_initrd(uint32_t loc){
   fs_array[1].close   = 0;
   fs_array[1].readdir = &initrd_readdir;
   fs_array[1].finddir = &initrd_finddir;
-  fs_array[1].ptr = 0;
-  fs_array[1].impl = 0;
-  nroot_nodes = 9;
+  fs_array[1].ptr     = 0;
+  fs_array[1].impl    = 0;
+  nroot_nodes         = 9;
   for(i=0; i<9; i++){
     file_headers[i]->offset += loc;
     strcpy(root_nodes[i].name, file_headers[i]->name);
