@@ -154,7 +154,7 @@ fs_node_t init_initrd(uint32_t loc){
   fs_array[1].impl = 0;
   nroot_nodes = 9;
   for(i=0; i<9; i++){
-    file_headers[i].offset += loc;
+    file_headers[i]->offset += loc;
     strcpy(root_nodes[i].name, file_headers[i]->name);
     root_nodes[i].mask = 0;
     root_nodes[i].uid = 0;
