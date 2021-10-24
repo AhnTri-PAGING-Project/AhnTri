@@ -122,7 +122,7 @@ fs_node_t fs_array[9];
 
 fs_node_t init_initrd(uint32_t loc){
   int i;
-  file_headers = (initrd_file_header_t*)(loc+sizeof(initrd_header_t));
+  file_headers.nfiles = (initrd_file_header_t*)(loc+sizeof(initrd_header_t));
   strcpy(fs_array[0].name, "initrd");
   fs_array[0].mask    = 0;
   fs_array[0].uid     = 0;
