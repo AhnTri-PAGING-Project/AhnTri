@@ -11,8 +11,8 @@
 //-------------------------------
 
 initrd_header_t initrd_header;
-initrd_file_header_t *file_headers;
-fs_node_t *root_nodes[9];
+initrd_file_header_t file_headers;
+fs_node_t root_nodes[9];
 int nroot_nodes;
 
 struct dirent dirent;
@@ -106,8 +106,8 @@ fs_node_t fs_array[9];
 
 fs_node_t init_initrd(uint32_t loc){
   int i;
-  initrd_header = (initrd_header_t *)loc;
-  file_headers = (initrd_file_header_t *)(loc+sizeof(initrd_header_t));
+  initrd_header = (initrd_header_t)loc;
+  file_headers = (initrd_file_header_t)(loc+sizeof(initrd_header_t));
   strcpy(fs_array[0].name, "initrd");
   fs_array[0].mask    = 0;
   fs_array[0].uid     = 0;
