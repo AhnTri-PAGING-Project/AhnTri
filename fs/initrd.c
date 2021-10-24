@@ -12,6 +12,7 @@
 
 initrd_header_t initrd_header;
 initrd_file_header_t file_headers;
+fs_node_t initrd_root;
 fs_node_t root_nodes[9];
 int nroot_nodes;
 
@@ -96,10 +97,24 @@ static struct dirent *initrd_readdir(fs_node_t *node, uint32_t index)
    if (index-1 >= nroot_nodes) {
        return 0;
    }
-   dirent.name = root_nodes[index-1].name
+   strcpy(dirent.name, root_nodes[index-1].name);
    dirent.name[strlen(root_nodes[index-1].name)] = 0;
    dirent.ino = root_nodes[index-1].inode;
    return &dirent;
+}
+
+static fs_node_t *initrd_finddir(fs_node_t *node, char *name)
+{
+   if (node == initrd_root && !strcmp(name, "dev")){
+       return initrd_dev;
+   }
+   int i;
+   for (i = 0; i < nroot_nodes; i++){
+       if (!strcmp(name, root_nodes[i].name)){
+           return &root_nodes[i];
+       }
+   }
+   return 0;
 }
 
 fs_node_t fs_array[9];
