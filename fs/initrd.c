@@ -11,7 +11,7 @@
 //-------------------------------
 
 initrd_header_t initrd_header;
-initrd_file_header_t file_headers[9];
+initrd_file_header_t *file_headers[9];  //Thanks for the issue fix, u/DeanoBurrito!
 fs_node_t initrd_root;
 fs_node_t initrd_dev;
 fs_node_t root_nodes[9];
@@ -155,11 +155,11 @@ fs_node_t init_initrd(uint32_t loc){
   nroot_nodes = 9;
   for(i=0; i<9; i++){
     file_headers[i].offset += loc;
-    strcpy(root_nodes[i].name, file_headers[i].name);
+    strcpy(root_nodes[i].name, file_headers[i]->name);
     root_nodes[i].mask = 0;
     root_nodes[i].uid = 0;
     root_nodes[i].gid = 0;
-    root_nodes[i].length = file_headers[i].length;
+    root_nodes[i].length = file_headers[i]->length;
     root_nodes[i].inode = i;
     root_nodes[i].read = NULL;
     root_nodes[i].write = 0;
