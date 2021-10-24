@@ -37,7 +37,7 @@ typedef struct tarheader{
         uint32_t modt[12];
         uint32_t checksum[8];
         uint8_t type;
-        uint8_t linkedfile[100]
+        uint8_t linkedfile[100];
         uint8_t sign[6];        // Which is gonna be ustar\0
         uint8_t ver[2];         // Gotta be 00
         uint8_t owneruname[OWNER_USER_NAME_SIZE];
