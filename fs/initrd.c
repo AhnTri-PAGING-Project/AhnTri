@@ -11,10 +11,10 @@
 //-------------------------------
 
 initrd_header_t *initrd_header;         //Thanks for the issue fix, u/DeanoBurrito!
-initrd_file_header_t *file_headers[9];
-fs_node_t *initrd_root;
-fs_node_t *initrd_dev;
-fs_node_t *root_nodes[9];
+initrd_file_header_t file_headers[9];
+fs_node_t initrd_root;
+fs_node_t initrd_dev;
+fs_node_t root_nodes[9];
 int nroot_nodes;
 
 struct dirent dirent;
@@ -122,36 +122,36 @@ fs_node_t fs_array[9];
 
 fs_node_t init_initrd(uint32_t loc){
   int i;
-  initrd_header = (initrd_header_t *)loc;
-  file_headers = (initrd_file_header_t *)(loc+sizeof(initrd_header_t));
-  strcpy(fs_array[0].name-> "initrd");
-  fs_array[0]->mask    = 0;
-  fs_array[0]->uid     = 0;
-  fs_array[0]->gid     = 0;
-  fs_array[0]->inode   = 0;
-  fs_array[0]->length  = 0;
-  fs_array[0]->flags   = FS_DIRECTORY;
-  fs_array[0]->read    = 0;
-  fs_array[0]->open    = 0;
-  fs_array[0]->close   = 0;
-  fs_array[0]->readdir = &initrd_readdir;
-  fs_array[0]->finddir = &initrd_finddir;
-  fs_array[0]->ptr = 0;
-  fs_array[0]->impl = 0;
-  strcpy(fs_array[1]->name, "dev");
-  fs_array[1]->mask    = 0;
-  fs_array[1]->uid     = 0;
-  fs_array[1]->gid     = 0;
-  fs_array[1]->inode   = 0;
-  fs_array[1]->length  = 0;
-  fs_array[1]->flags   = FS_DIRECTORY;
-  fs_array[1]->read    = 0;
-  fs_array[1]->open    = 0;
-  fs_array[1]->close   = 0;
-  fs_array[1]->readdir = &initrd_readdir;
-  fs_array[1]->finddir = &initrd_finddir;
-  fs_array[1]->ptr = 0;
-  fs_array[1]->impl = 0;
+  initrd_header = (initrd_header_t)loc;
+  file_headers = (initrd_file_header_t)(loc+sizeof(initrd_header_t));
+  strcpy(fs_array[0].name, "initrd");
+  fs_array[0].mask    = 0;
+  fs_array[0].uid     = 0;
+  fs_array[0].gid     = 0;
+  fs_array[0].inode   = 0;
+  fs_array[0].length  = 0;
+  fs_array[0].flags   = FS_DIRECTORY;
+  fs_array[0].read    = 0;
+  fs_array[0].open    = 0;
+  fs_array[0].close   = 0;
+  fs_array[0].readdir = &initrd_readdir;
+  fs_array[0].finddir = &initrd_finddir;
+  fs_array[0].ptr = 0;
+  fs_array[0].impl = 0;
+  strcpy(fs_array[1].name, "dev");
+  fs_array[1].mask    = 0;
+  fs_array[1].uid     = 0;
+  fs_array[1].gid     = 0;
+  fs_array[1].inode   = 0;
+  fs_array[1].length  = 0;
+  fs_array[1].flags   = FS_DIRECTORY;
+  fs_array[1].read    = 0;
+  fs_array[1].open    = 0;
+  fs_array[1].close   = 0;
+  fs_array[1].readdir = &initrd_readdir;
+  fs_array[1].finddir = &initrd_finddir;
+  fs_array[1].ptr = 0;
+  fs_array[1].impl = 0;
   nroot_nodes = 9;
   for(i=0; i<9; i++){
     file_headers[i].offset += loc;
