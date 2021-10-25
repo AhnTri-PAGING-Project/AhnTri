@@ -37,7 +37,7 @@ typedef struct tarheader{
         uint32_t modt[12];
         uint32_t checksum[8];
         uint8_t type;
-        uint8_t linkedfile[100]
+        uint8_t linkedfile[100];
         uint8_t sign[6];        // Which is gonna be ustar\0
         uint8_t ver[2];         // Gotta be 00
         uint8_t owneruname[OWNER_USER_NAME_SIZE];
@@ -72,8 +72,9 @@ void initinitrd(){
 // tar lookup(returns the file size
 // tar 안에서 찾기
 int tar_lookup(unsigned char *ptr, char *filename, char **out) {
+  int filesize;
     while (!memcmp(ptr + 257, "ustar", 5)) {
-        int filesize = oct2bin(ptr + 0x7c, 11);
+        filesize = oct2bin(ptr + 0x7c, 11);
         if (!memcmp(ptr, filename, strlen(filename) + 1)) {
             *out = ptr + 512;
             return filesize;
@@ -84,10 +85,10 @@ int tar_lookup(unsigned char *ptr, char *filename, char **out) {
 }
 
 bool getfiledata(char *filename, void **start, void **end, uint8_t size){
-  void *scanptr = initrd_start;
+  void *scanptr = (uint8_t)_binary_ahntri_initrd_kerneldisk_start;
 	tar_header_t *scan = (tar_header_t*)scanptr;
   
-  while((uin8_t)scan < _binary_ahntri_initrd_kerneldisk_end){
+  while((uin8t_t)scan < _binary_ahntri_initrd_kerneldisk_end){
 		uint8_t lenofthefilename = strlen((char *)scan->filename);
     uint8_t lenoffilename = strlen(filename);
     //If the length of the filename givn is smaller than the length of the file name in it make it equal.
@@ -98,12 +99,12 @@ bool getfiledata(char *filename, void **start, void **end, uint8_t size){
 		if (memcmp(scan->filename, filename, lenofthefilename) == 0){																	//Is filename.Data() filename?
       return true;
     }
-    uint8_t fsize				= OctalToUseful(scan->fileSize, USTAR_FILESIZE_LENGTH - 1);
-    uint8_t remainder		= USTAR_SECTOR_SIZE - (fileSize % USTAR_SECTOR_SIZE);
-    if (remainder == USTAR_SECTOR_SIZE){
+    uint8_t fsize				= OctalToUseful(scan->fsize, FILESIZE_LEN - 1);
+    uint8_t remainder		= SECTOR_SIZE - (fsize % SECTOR_SIZE);
+    if (remainder == SECTOR_SIZE){
       remainder = 0;
     }
-    scanptr += USTAR_SECTOR_SIZE + fileSize + remainder;
+    scanptr += SECTOR_SIZE + fsize + remainder;
     scan = (tar_header_t*)scanptr;
   }
   *start = *end = size = NULL;
