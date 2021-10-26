@@ -2,14 +2,14 @@
 all: make_deafult
 
 #Makes everything up
-make_deafult: bboot paging atclib kernel ccalc irq clibv timer framebuffer qemudrivers serialdrivers cmos advset cbot cal credit art artii fishdic game notes osver keychar gdt idt fsa initrd pmm ld buildgrub clean
+make_deafult: bboot paging atclib kernel ccalc irq clibv timer framebuffer qemudrivers serialdrivers cmos advset cbot cal credit art artii fishdic game notes osver keychar gdt idt fsa initrd init_rd pmm ld buildgrub clean
 
 #Build kernel main image
 kernel: main.c
 	gcc -m32 -c main.c -o image.o -std=gnu99 -ffreestanding -O1 -Wall -Wextra 
 #Link everything up
 
-ld: linker.ld linker.ld clib.o image.o pagingi.o pagingii.o clibv.o irq.o irq_s.o timer.o ccalc.o qemu.o serial.o cmos.o advset.o cbot.o isr.o cal.o art.o artii.o notes.o osver.o fishdic.o credit.o game.o char.o boot.o gdt.o load_gdt.o idt.o load_idt.o initrd.o fs.o pmm.o 
+ld: linker.ld linker.ld clib.o image.o pagingi.o pagingii.o clibv.o irq.o irq_s.o timer.o ccalc.o qemu.o serial.o cmos.o advset.o cbot.o isr.o cal.o art.o artii.o notes.o osver.o fishdic.o credit.o game.o char.o boot.o gdt.o load_gdt.o idt.o load_idt.o initrd.o init_rd fs.o pmm.o 
 	ld -m elf_i386 -T linker.ld clib.o image.o pagingi.o pagingii.o clibv.o irq.o irq_s.o cmos.o framebuffer.o timer.o advset.o ccalc.o qemu.o serial.o cbot.o isr.o cal.o art.o artii.o notes.o osver.o fishdic.o credit.o game.o char.o boot.o gdt.o load_gdt.o idt.o load_idt.o fs.o initrd.o pmm.o -o ATOS1.bin -nostdlib
 
 #Build ISO file via grub
@@ -87,6 +87,9 @@ fsa: fs/fs.c
 
 initrd: fs/initrd.c
 	gcc -m32 -c fs/initrd.c -o initrd.o -std=gnu99 -ffreestanding -O2 -Wall -Wextra
+
+init_rd: ahntri-initrd/*
+	@tar -c ahntri-initrd/* -f ahntri-initrd/kerneldisk.bin
 
 #Assemble gru(bboot)loader
 bboot: boot/boot.s
