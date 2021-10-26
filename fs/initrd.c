@@ -88,7 +88,7 @@ bool getfiledata(char *filename, void **start, void **end, uint8_t size){
   void *scanptr = (uint8_t)_binary_ahntri_initrd_kerneldisk_start;
 	tar_header_t *scan = (tar_header_t*)scanptr;
   
-  while((uin8t_t)scan < _binary_ahntri_initrd_kerneldisk_end){
+  while((uint8_t)scan < _binary_ahntri_initrd_kerneldisk_end){
 		uint8_t lenofthefilename = strlen((char *)scan->filename);
     uint8_t lenoffilename = strlen(filename);
     //If the length of the filename givn is smaller than the length of the file name in it make it equal.
