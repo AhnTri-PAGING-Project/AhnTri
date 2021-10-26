@@ -59,14 +59,14 @@ int oct2bin(unsigned char *str, int size) {
     return n;
 }
 
-extern char _binary_ahntri_initrd_kerneldisk_start;
-extern char _binary_ahntri_initrd_kerneldisk_size;
-extern char _binary_ahntri_initrd_kerneldisk_end;
+extern char _binary_ahntri_initrd_kerneldisk_bin_start;
+extern char _binary_ahntri_initrd_kerneldisk_bin_size;
+extern char _binary_ahntri_initrd_kerneldisk_bin_end;
 
 void initinitrd(){
-  uint8_t initrd_start = (uint8_t)&_binary_ahntri_initrd_kerneldisk_start;
-  uint8_t initrd_size = (uint8_t)&_binary_ahntri_initrd_kerneldisk_size;
-  uint8_t initrd_end = (uint8_t)&_binary_ahntri_initrd_kerneldisk_end;
+  uint8_t initrd_start = (uint8_t)&_binary_ahntri_initrd_kerneldisk_bin_start;
+  uint8_t initrd_size = (uint8_t)&_binary_ahntri_initrd_kerneldisk_bin_size;
+  uint8_t initrd_end = (uint8_t)&_binary_ahntri_initrd_kerneldisk_bin_end;
 }
 
 // tar lookup(returns the file size
@@ -85,10 +85,10 @@ int tar_lookup(unsigned char *ptr, char *filename, char **out) {
 }
 
 bool getfiledata(char *filename, void **start, void **end, uint8_t size){
-  void *scanptr = (uint8_t)_binary_ahntri_initrd_kerneldisk_start;
+  void *scanptr = (uint8_t)_binary_ahntri_initrd_kerneldisk_bin_start;
 	tar_header_t *scan = (tar_header_t*)scanptr;
   
-  while((uint8_t)scan < _binary_ahntri_initrd_kerneldisk_end){
+  while((uint8_t)scan < _binary_ahntri_initrd_kerneldisk_bin_end){
 		uint8_t lenofthefilename = strlen((char *)scan->filename);
     uint8_t lenoffilename = strlen(filename);
     //If the length of the filename givn is smaller than the length of the file name in it make it equal.
