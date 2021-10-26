@@ -99,7 +99,7 @@ bool getfiledata(char *filename, void **start, void **end, uint8_t size){
 		if (memcmp(scan->filename, filename, lenofthefilename) == 0){																	//Is filename.Data() filename?
       return true;
     }
-    uint8_t fsize				= OctalToUseful(scan->fsize, FILESIZE_LEN - 1);
+    uint8_t fsize				= oct2bin(scan->fsize, FILESIZE_LEN - 1);
     uint8_t remainder		= SECTOR_SIZE - (fsize % SECTOR_SIZE);
     if (remainder == SECTOR_SIZE){
       remainder = 0;
