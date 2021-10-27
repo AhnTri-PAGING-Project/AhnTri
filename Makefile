@@ -10,7 +10,7 @@ kernel: main.c
 #Link everything up
 
 ld: linker.ld linker.ld clib.o image.o pagingi.o pagingii.o clibv.o irq.o irq_s.o timer.o ccalc.o qemu.o serial.o cmos.o advset.o cbot.o isr.o cal.o art.o artii.o notes.o osver.o fishdic.o credit.o game.o char.o boot.o gdt.o load_gdt.o idt.o load_idt.o initrd.o init_rd fs.o pmm.o 
-	gcc -m elf_i386 -T linker.ld clib.o image.o pagingi.o pagingii.o clibv.o irq.o irq_s.o cmos.o framebuffer.o timer.o advset.o ccalc.o qemu.o serial.o cbot.o isr.o cal.o art.o artii.o notes.o osver.o fishdic.o credit.o game.o char.o boot.o gdt.o load_gdt.o idt.o load_idt.o fs.o initrd.o pmm.o -o ATOS1.bin -nostdlib -Wl, --format -Wl, binary -Wl, ahntri-initrd/kerneldisk.bin
+	ld -m elf_i386 -T linker.ld clib.o image.o pagingi.o pagingii.o clibv.o irq.o irq_s.o cmos.o framebuffer.o timer.o advset.o ccalc.o qemu.o serial.o cbot.o isr.o cal.o art.o artii.o notes.o osver.o fishdic.o credit.o game.o char.o boot.o gdt.o load_gdt.o idt.o load_idt.o fs.o initrd.o pmm.o -o ATOS1.bin -nostdlib -Wl, --format -Wl, binary -Wl, ahntri-initrd/kerneldisk.bin
 
 #Build ISO file via grub
 buildgrub: ATOS1.bin
