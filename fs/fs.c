@@ -37,3 +37,11 @@ struct dirent *readdir_fs(fs_node_t *node, uint32_t index){
                 return 0;
         }
 }
+
+struct dirent *finddir_fs(fs_node_t *node, uint32_t index){
+        if ((node->flags&0x7) == FS_DIRECTORY && node->readdir != 0 ){
+                return node->finddir(node, index);
+        }else{
+                return 0;
+        }
+}

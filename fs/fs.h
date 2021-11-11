@@ -33,6 +33,8 @@ typedef struct fs_node {
    struct fs_node *ptr;
 } fs_node_t;
 
+extern fs_node_t *fs_root;
+
 struct dirent {
   char name[256];
   uint32_t ino;
