@@ -23,6 +23,7 @@
 #include "mm/mmap.h"
 #include "drivers/sound.h"
 #include "strtscrn.h"
+#include "fs/fs.h"
 
 //Define Macros
 #define CHECK_FLAG(flags,bit)   ((flags) & (1 << (bit)))
@@ -159,7 +160,7 @@ void kernmain(){
 	suspend(5);
 	nosound();
 }
- 
+
 void mkern_main(multiboot_info_t* multiboot)
 {
   if (CHECK_FLAG (multiboot->flags, 12)){
@@ -178,16 +179,35 @@ void mkern_main(multiboot_info_t* multiboot)
   pmm_kernel_deinit();
   qemu_printf_string("Everything is initialized. System is starting...");
   init_tty(multiboot, 0x7fa49d, 0x000000);
-  print_int((int)sizeofpmminit);
-  printf(" pages initialized.\n");
   suspend(4);
-  printf_mmap_addr(multiboot);
-  beep();
-  print_kernel_map();
-  read_rtc();
-  suspend(20);
-  framebuffer_clscr(0x000000);
-  strt_scrn();
-  framebuffer_clscr(0x000000);
-  newmain();
+  uint32_t initrd_location = *((u32int*)multiboot->mods_addr);
+  uint32_t initrd_end = *(u32int*)(multiboot->mods_addr+4);
+  fs_root = init_initrd(initrd_location);
+  int i = 0;
+    struct dirent *node = 0;
+    while ( (node = readdir_fs(fs_root, i)) != 0)
+    {
+        printf("Found file ");
+        printf(node->name);
+        fs_node_t *fsnode = finddir_fs(fs_root, node->name);
+
+        if ((fsnode->flags&0x7) == FS_DIRECTORY)
+        {
+            printf("\n(directory)\n");
+        }
+        else
+        {
+            printf("\n contents: \"");
+            char buf[256];
+            u32int sz = read_fs(fsnode, 0, 256, buf);
+            int j;
+            for (j = 0; j < sz; j++)
+                print_char(buf[j]);
+            
+            printf("\"\n");
+        }
+        i++;
+    }
+
+    return 0;
 }
